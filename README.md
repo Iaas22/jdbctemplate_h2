@@ -14,6 +14,12 @@ Hay que insertar un json con los datos del customer, en este caso age, cicle  y 
 El mensaje "customer creado" indica que los datos enviados en el JSON se han insertado correctamente en la base de datos y se ha creado un nuevo registro en la tabla customers.
 ![image alt](https://github.com/Iaas22/jdbctemplate_h2/blob/main/addCustomer.png?raw=true)
 
+4. Ver base de datos en H2
+La comprobación de la base de datos se hace poniendo la ruta "http://localhost:8080/h2-console/" en el navegador y luego introduciendo el usuario y contraseña configurados en application.properties.
+Al hacer un select se muestran todos los datos de los customers que hay en la base de datos.
+![image alt](https://github.com/Iaas22/jdbctemplate_h2/blob/main/BD.png?raw=true)
+
+
 
 
 
