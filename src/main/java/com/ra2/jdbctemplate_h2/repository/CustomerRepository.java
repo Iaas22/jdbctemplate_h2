@@ -17,32 +17,43 @@ public class CustomerRepository {
     @Autowired
     private JdbcTemplate jdbcTemplate;
 
-    private static final class CustomerRowMapper implements RowMapper <Customer>{
+    private static final class CustomerRowMapper implements RowMapper<Customer> {
         @Override
-        public Customer mapRow(ResultSet rs, int rowNum) throws SQLException{
-
+        public Customer mapRow(ResultSet rs, int rowNum) throws SQLException {
             Customer customer = new Customer();
-            customer.setId(rs.getLong("id"));
-            customer.setFirstName(rs.getString("f_name"));
-            customer.setLastName(rs.getString("l_name"));
-
+            customer.setAge(rs.getInt("age"));
+            customer.setCicle(rs.getString("cicle"));
+            customer.setYear(rs.getInt("yearr"));
             return customer;
         }
-
     }
 
-    public void createTableCustomers(){
-        jdbcTemplate.execute("DROP TABLE customers if EXISTS");
-        jdbcTemplate.execute("CREATE TABLE customers (id SERIAL, f_name VARCHAR(255), l:name VARCHAR (255))");
+    public void createTableCustomers() {
+        jdbcTemplate.execute("DROP TABLE IF EXISTS customers");
+        jdbcTemplate.execute(
+            "CREATE TABLE customers (" +
+            "age INT, " +
+            "cicle VARCHAR(255), " +
+            "yearr INT)"
+        );
     }
 
-    public void insertSampleData(){
-        jdbcTemplate.update("INSERT INTO customers (f_name, l_name) VALUES (?,?)", "Jhon", "Doe");
-        jdbcTemplate.update("INSERT INTO customers (f_name, l_name) VALUES (?,?)", "Jane", "Smith");
-         jdbcTemplate.update("INSERT INTO customers (f_name, l_name) VALUES (?,?)", "Bob", "Johnson");
-}
+    public void insertSampleData() {
+        jdbcTemplate.update("INSERT INTO customers (age, cicle, yearr) VALUES (?, ?, ?)", 18, "First Cycle", 2023);
+        jdbcTemplate.update("INSERT INTO customers (age, cicle, yearr) VALUES (?, ?, ?)", 20, "Second Cycle", 2024);
+        jdbcTemplate.update("INSERT INTO customers (age, cicle, yearr) VALUES (?, ?, ?)", 22, "Final Cycle", 2025);
+        }
 
-public List <Customer> findAll(){
-    return jdbcTemplate.query("SELECT id, f_name l_name FROM customers", new  CustomerRowMapper());
-}
-}
+        public List<Customer> findAll() {
+        return jdbcTemplate.query("SELECT age, cicle, yearr FROM customers", new CustomerRowMapper());
+        }
+
+        public int createCustomer(Customer customer) {
+        return jdbcTemplate.update(
+            "INSERT INTO customers (age, cicle, yearr) VALUES (?, ?, ?)",
+            customer.getAge(),
+            customer.getCicle(),
+            customer.getYear()
+        );
+        }
+    }
